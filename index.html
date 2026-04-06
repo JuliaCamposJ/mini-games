@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QA Game - Adivinhação</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); text-align: center; width: 350px; border-top: 5px solid #69AD32; }
+        h1 { color: #333; font-size: 1.5rem; }
+        input { padding: 12px; width: 80px; border: 2px solid #ddd; border-radius: 8px; font-size: 1.2rem; text-align: center; outline: none; transition: 0.3s; }
+        input:focus { border-color: #69AD32; }
+        button { background: #69AD32; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #589b2b; transform: translateY(-2px); }
+        #mensagem { margin-top: 20px; font-weight: 500; color: #555; line-height: 1.4; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔍 Número Secreto</h1>
+        <p>Tente adivinhar o número que o QA gerou (1 a 100):</p>
+        <input type="number" id="palpite" min="1" max="100" placeholder="00">
+        <br>
+        <button onclick="verificar()">Validar Palpite</button>
+        <p id="mensagem">Aguardando seu primeiro teste...</p>
+    </div>
+
+    <script>
+        const num = Math.floor(Math.random() * 100) + 1;
+        let tent = 0;
+        function verificar() {
+            const p = parseInt(document.getElementById('palpite').value);
+            const m = document.getElementById('mensagem');
+            if (isNaN(p) || p < 1 || p > 100) { m.innerHTML = "⚠️ Ei! Digite um número válido entre 1 e 100."; return; }
+            tent++;
+            if (p === num) {
+                m.innerHTML = `🎉 <b>Sucesso!</b> O número era ${num}.<br>Encontrado em ${tent} tentativas. <br>Status: PASS ✅`;
+                m.style.color = "green";
+            } else {
+                m.innerHTML = p < num ? "📉 Tente um número MAIOR..." : "📈 Tente um número MENOR...";
+                m.style.color = "#0077B5";
+            }
+            document.getElementById('palpite').value = '';
+            document.getElementById('palpite').focus();
+        }
+    </script>
+</body>
+</html>
